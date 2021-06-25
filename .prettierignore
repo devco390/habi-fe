@@ -1,0 +1,5 @@
+!.storybook
+!.jest
+src/assets/icons
+**/*/__snapshots__
+*.snap
