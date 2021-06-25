@@ -2,7 +2,7 @@ import * as S from 'styles/content-base'
 
 import { useEffect, useState } from 'react'
 import ContentAPI from 'services/content-api'
-import { IUser } from 'models/user'
+
 import { DataGrid, ColDef, CellParams } from '@material-ui/data-grid'
 
 import Loader from 'components/Loader'
@@ -11,16 +11,16 @@ import Button from '@material-ui/core/Button'
 
 import Snackbar from '@material-ui/core/Snackbar'
 import Alert from '@material-ui/lab/Alert'
-import { USER_ROLES, USER_STATES } from 'models/login'
 import { useRouter } from 'next/router'
 
 import { Color } from 'models/form'
+import { IIngredient } from 'models/ingredients'
 
-const SINGULAR_COMPONENT_NAME = 'usuario'
-const PLURAL_COMPONENT_NAME = 'usuarios'
-const BASE_NAME_END_POINT = 'users'
+const SINGULAR_COMPONENT_NAME = 'ingrediente'
+const PLURAL_COMPONENT_NAME = 'ingredientes'
+const BASE_NAME_END_POINT = 'ingredients'
 
-const UserList = () => {
+const IngredientList = () => {
   const router = useRouter()
   const [records, setRecords] = useState([])
   const [loading, setLoading] = useState<boolean>(true)
@@ -39,7 +39,7 @@ const UserList = () => {
   }
   const removeRecord = (id: string): void => {
     try {
-      const recordsUpdated = records.filter((record: IUser) => {
+      const recordsUpdated = records.filter((record: IIngredient) => {
         return record && record.id !== id
       })
       setRecords(recordsUpdated)
@@ -74,35 +74,17 @@ const UserList = () => {
       onDelete={deleteRecord}
     />
   )
-  const renderCellRol = (params: CellParams) => (
-    <span>{USER_ROLES[params.value as keyof typeof USER_ROLES]}</span>
-  )
-  const renderCellState = (params: CellParams) => (
-    <span>{USER_STATES[params.value as keyof typeof USER_STATES]}</span>
-  )
 
   const columns: ColDef[] = [
     {
-      field: 'userName',
+      field: 'name',
       headerName: 'Nombre',
       width: 200
     },
     {
-      field: 'email',
-      headerName: 'Email',
-      width: 300
-    },
-    {
-      field: 'rol',
-      headerName: 'Rol',
-      width: 150,
-      renderCell: renderCellRol
-    },
-    {
-      field: 'state',
-      headerName: 'Estado',
-      width: 150,
-      renderCell: renderCellState
+      field: 'price',
+      headerName: 'precio',
+      width: 200
     },
     {
       field: 'id',
@@ -114,7 +96,7 @@ const UserList = () => {
   ]
 
   const getRecords = () => {
-    ContentAPI.get<IUser[]>(`/${BASE_NAME_END_POINT}`)
+    ContentAPI.get<IIngredient[]>(`/${BASE_NAME_END_POINT}`)
       .then(({ data: { data } }: any) => {
         setLoading(false)
         setRecords(data)
@@ -138,13 +120,13 @@ const UserList = () => {
   return (
     <S.Wrapper>
       <Loader loading={loading} />
-      <S.WrapperAction>
+      <S.WrapperAction style={{ width: 550 }}>
         <S.Title>{PLURAL_COMPONENT_NAME}</S.Title>
         <Button variant="contained" color="primary" onClick={redirectNewForm}>
           Crear {SINGULAR_COMPONENT_NAME}
         </Button>
       </S.WrapperAction>
-      <S.WrapperGrid style={{ height: 300, width: 950 }}>
+      <S.WrapperGrid style={{ height: 300, width: 550 }}>
         <DataGrid columns={columns} rows={records} />
       </S.WrapperGrid>
       <Snackbar
@@ -160,4 +142,4 @@ const UserList = () => {
   )
 }
 
-export default UserList
+export default IngredientList

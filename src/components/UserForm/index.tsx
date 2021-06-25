@@ -93,7 +93,7 @@ const UserForm = ({ initialState, handleSubmit }: UserFormProps) => {
       <S.WrapperInputs>
         <div>
           <TextField
-            error={false}
+            error={errorUserName}
             required
             id="username"
             label="Nombre"
