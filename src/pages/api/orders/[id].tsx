@@ -1,21 +1,14 @@
 import { API_METHODS } from 'models/api'
-import { ICategory } from 'models/categories'
+import { IOrder } from 'models/order'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import GenericRequestService from 'services/gereneric-request-api'
 import { getMethodNotAllowedResponse } from 'utils/api-utils'
 
-const genericRequestService = new GenericRequestService('categories')
+const genericRequestService = new GenericRequestService('orders')
 
-const updateCategory = (request: NextApiRequest, response: NextApiResponse) => {
-  const { body: recordData } = request
-  const { name } = recordData
-  genericRequestService.updateRecordWithKeyValidation<ICategory>(
-    request,
-    response,
-    'name',
-    name
-  )
+const updateOrder = (request: NextApiRequest, response: NextApiResponse) => {
+  genericRequestService.updateRecord<IOrder>(request, response)
 }
 
 export default function requestHandler(
@@ -27,7 +20,7 @@ export default function requestHandler(
   if (method === API_METHODS.GET) {
     genericRequestService.getRecord(request, response)
   } else if (method === API_METHODS.PUT) {
-    updateCategory(request, response)
+    updateOrder(request, response)
   } else if (method === API_METHODS.DELETE) {
     genericRequestService.deleteRecord(request, response)
   } else {

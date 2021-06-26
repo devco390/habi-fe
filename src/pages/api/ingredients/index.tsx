@@ -10,7 +10,7 @@ const genericRequestService = new GenericRequestService('ingredients')
 const addIngredient = (request: NextApiRequest, response: NextApiResponse) => {
   const { body: ingredientData } = request
   const { name, price } = ingredientData
-  genericRequestService.addRecord<IIngredient>(
+  genericRequestService.addRecordWithFieldValidation<IIngredient>(
     request,
     response,
     { name, price },

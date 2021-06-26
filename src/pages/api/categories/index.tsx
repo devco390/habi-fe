@@ -10,7 +10,7 @@ const genericRequestService = new GenericRequestService('categories')
 const addCategory = (request: NextApiRequest, response: NextApiResponse) => {
   const { body: recordData } = request
   const { name, products } = recordData
-  genericRequestService.addRecord<ICategory>(
+  genericRequestService.addRecordWithFieldValidation<ICategory>(
     request,
     response,
     { name, products },

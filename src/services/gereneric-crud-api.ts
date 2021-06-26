@@ -136,7 +136,27 @@ class GenericCrudService {
     }
   }
 
-  async add<T>(
+  async add<T>(dataRecord: T): Promise<IApiResponse> {
+    try {
+      return firestore
+        .collection(this.collection)
+        .add({
+          ...dataRecord,
+          createdAt: new Date(),
+          lastUpdate: new Date()
+        })
+        .then((ref) => {
+          return getCreatedResponse({ id: ref.id })
+        })
+        .catch((error) => {
+          return getBadRequestResponse(error.message)
+        })
+    } catch (error) {
+      return getServerErrorResponse(error)
+    }
+  }
+
+  async addWithFieldValidation<T>(
     dataRecord: T,
     fieldToMatch: string,
     valueToMatch: string

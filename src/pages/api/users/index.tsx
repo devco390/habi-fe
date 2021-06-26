@@ -10,7 +10,7 @@ const genericRequestService = new GenericRequestService('users')
 const addUser = (request: NextApiRequest, response: NextApiResponse) => {
   const { body: userData } = request
   const { email, userName, rol, state } = userData
-  genericRequestService.addRecord<IUser>(
+  genericRequestService.addRecordWithFieldValidation<IUser>(
     request,
     response,
     { email, userName, rol, state },

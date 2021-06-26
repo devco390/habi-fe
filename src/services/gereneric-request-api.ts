@@ -18,18 +18,28 @@ class GenericRequestService {
     response.status(code).send(dataTosend)
   }
 
-  async addRecord<T>(
+  async addRecordWithFieldValidation<T>(
     request: NextApiRequest,
     response: NextApiResponse,
     dataRecord: T,
     fieldToMatch: string,
     valueToMatch: string
   ) {
-    const data = await this.genericCrudService.add<T>(
+    const data = await this.genericCrudService.addWithFieldValidation<T>(
       dataRecord,
       fieldToMatch,
       valueToMatch
     )
+    const { code, ...dataTosend } = data
+    response.status(code).send(dataTosend)
+  }
+
+  async addRecord<T>(
+    request: NextApiRequest,
+    response: NextApiResponse,
+    dataRecord: T
+  ) {
+    const data = await this.genericCrudService.add<T>(dataRecord)
     const { code, ...dataTosend } = data
     response.status(code).send(dataTosend)
   }
