@@ -6,26 +6,25 @@ import Loader from 'components/Loader'
 
 import Snackbar from '@material-ui/core/Snackbar'
 import Alert from '@material-ui/lab/Alert'
-import ProductForm from 'components/ProductForm'
-import { IProduct } from 'models/product'
+import CategoryForm from 'components/CategoryForm'
+import { ICategory } from 'models/categories'
 
-type ProductEditProps = {
+type CategoryEditProps = {
   id: string
 }
 
-const BASE_NAME_END_POINT = 'products'
+const BASE_NAME_END_POINT = 'categories'
 
-const ProductEdit = ({ id }: ProductEditProps) => {
+const CategoryEdit = ({ id }: CategoryEditProps) => {
   const [loading, setLoading] = useState<boolean>(false)
   const [openAlert, setOpenAlert] = useState<boolean>(false)
   const [messageAlert, setMessageAlert] = useState<string>('')
   const [severityAlert, setSeverityAlert] = useState<Color>('success')
-  const [initialState, setInitialState] = useState<IProduct>()
+  const [initialState, setInitialState] = useState<ICategory>()
 
   useEffect(() => {
     ContentAPI.get(`/${BASE_NAME_END_POINT}/${id}`)
       .then(({ data: { data } }) => {
-        console.log(data)
         setInitialState(data)
       })
       .catch((error) => {
@@ -37,7 +36,7 @@ const ProductEdit = ({ id }: ProductEditProps) => {
       })
   }, [])
 
-  const onHandleSubmit = (data: IProduct) => {
+  const onHandleSubmit = (data: ICategory) => {
     setLoading(true)
     ContentAPI.put(`/${BASE_NAME_END_POINT}/${id}`, data)
       .then(() => {
@@ -59,7 +58,7 @@ const ProductEdit = ({ id }: ProductEditProps) => {
     <>
       <Loader loading={loading} />
       {initialState && (
-        <ProductForm
+        <CategoryForm
           initialState={initialState}
           handleSubmit={onHandleSubmit}
         />
@@ -85,4 +84,4 @@ const ProductEdit = ({ id }: ProductEditProps) => {
   )
 }
 
-export default ProductEdit
+export default CategoryEdit

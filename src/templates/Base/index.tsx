@@ -46,6 +46,12 @@ const ITEMS_SIDEBAR: IItemSidebar[] = [
     label: 'Productos',
     url: 'productos',
     enabledRoles: ['it_manager', 'manager']
+  },
+  {
+    name: 'categorias',
+    label: 'Categorías',
+    url: 'categorias',
+    enabledRoles: ['it_manager', 'manager']
   }
 ]
 

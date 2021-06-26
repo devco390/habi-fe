@@ -11,34 +11,33 @@ import { useEffect, useState } from 'react'
 import TextField from '@material-ui/core/TextField'
 
 import { useRouter } from 'next/router'
+import { ICategory } from 'models/categories'
 import { IProduct } from 'models/product'
-import { IIngredient } from 'models/ingredients'
 import Loader from 'components/Loader'
 import Chip from '@material-ui/core/Chip'
+import { IIngredient } from 'models/ingredients'
 
-const PLURAL_COMPONENT_NAME = 'productos'
-const SINGULAR_COMPONENT_NAME = 'producto'
+const PLURAL_COMPONENT_NAME = 'categorias'
+const SINGULAR_COMPONENT_NAME = 'categoría'
 
-export type ProductFormProps = {
-  initialState: IProduct
-  handleSubmit: (data: IProduct) => void
+export type CategoryFormProps = {
+  initialState: ICategory
+  handleSubmit: (data: ICategory) => void
 }
 
-const ProductForm = ({ initialState, handleSubmit }: ProductFormProps) => {
+const CategoryForm = ({ initialState, handleSubmit }: CategoryFormProps) => {
   const router = useRouter()
-  const [state, setState] = useState<IProduct>(initialState)
+  const [state, setState] = useState<ICategory>(initialState)
   const [loading, setLoading] = useState<boolean>(false)
-  const [ingredients, setIngredients] = useState([])
-
-  const [errorPrice, setErrorPrice] = useState<boolean>(false)
+  const [products, setCategories] = useState([])
   const [errorName, setErrorName] = useState<boolean>(false)
 
-  const getIngredients = () => {
+  const getProducts = () => {
     setLoading(true)
-    ContentAPI.get<IIngredient[]>(`/ingredients`)
+    ContentAPI.get<IProduct[]>(`/products`)
       .then(({ data: { data } }: any) => {
         setLoading(false)
-        setIngredients(data)
+        setCategories(data)
       })
       .catch((e) => {
         setLoading(false)
@@ -56,19 +55,8 @@ const ProductForm = ({ initialState, handleSubmit }: ProductFormProps) => {
     setState({ ...state, name: value })
   }
 
-  const handleChangePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target
-    setErrorPrice(!validateMandatory(value))
-    const price = value as unknown as number
-    setState({ ...state, price })
-  }
-
   const validateForm = (): boolean => {
-    return (
-      validateMandatory(state.name) &&
-      state.price > 0 &&
-      state.ingredients.length > 0
-    )
+    return validateMandatory(state.name) && state.products.length > 0
   }
 
   const onHandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -77,26 +65,26 @@ const ProductForm = ({ initialState, handleSubmit }: ProductFormProps) => {
     handleSubmit(state)
   }
 
-  const addIngredient = (id: string) => {
-    const data = ingredients.filter((item: IIngredient) => {
+  const addProduct = (id: string) => {
+    const data = products.filter((item: IProduct) => {
       return item.id === id
     })
 
-    const ingredientsUpdated = [...state.ingredients, data[0]]
+    const productsUpdated = [...state.products, data[0]]
 
-    setState({ ...state, ingredients: ingredientsUpdated as IIngredient[] })
+    setState({ ...state, products: productsUpdated as IProduct[] })
   }
 
   const removeChip = (id: string) => {
-    const data = state.ingredients
-      .filter((item: IIngredient) => {
+    const data = state.products
+      .filter((item: IProduct) => {
         return item.id !== id
       })
-      .map(({ id, name, price }: IIngredient) => {
+      .map(({ id, name, price }: IProduct) => {
         return { id, name, price }
       })
 
-    setState({ ...state, ingredients: data as IIngredient[] })
+    setState({ ...state, products: data as IProduct[] })
   }
 
   const renderCell = (params: CellParams) => (
@@ -105,7 +93,7 @@ const ProductForm = ({ initialState, handleSubmit }: ProductFormProps) => {
         aria-label="remove"
         color="primary"
         onClick={() => {
-          addIngredient(params.value as string)
+          addProduct(params.value as string)
         }}
       >
         <AddCircleIcon />
@@ -113,12 +101,21 @@ const ProductForm = ({ initialState, handleSubmit }: ProductFormProps) => {
     </>
   )
 
+  const renderCellIngredients = (params: CellParams) => {
+    const text = ((params.value as any[]) || [])
+      .map((item: IIngredient) => {
+        return item.name
+      })
+      .join(', ')
+    return <span>{text}</span>
+  }
+
   const columns: ColDef[] = [
     {
       field: 'id',
       headerName: 'Acciones',
       renderCell: renderCell,
-      width: 150,
+      width: 100,
       sortable: false
     },
     {
@@ -130,25 +127,18 @@ const ProductForm = ({ initialState, handleSubmit }: ProductFormProps) => {
       field: 'price',
       headerName: 'precio',
       width: 200
+    },
+    {
+      field: 'ingredients',
+      headerName: 'Ingredientes',
+      width: 200,
+      renderCell: renderCellIngredients
     }
   ]
 
   useEffect(() => {
-    getIngredients()
+    getProducts()
   }, [])
-
-  useEffect(() => {
-    const prices = state.ingredients.map((item: IIngredient) => {
-      return item.price
-    })
-    let price = 0
-    if (prices.length > 0) {
-      price = prices.reduce((accumulator: number, currentValue: number) => {
-        return accumulator + currentValue
-      })
-    }
-    setState({ ...state, price })
-  }, [state.ingredients])
 
   return (
     <S.Wrapper noValidate autoComplete="off" onSubmit={onHandleSubmit}>
@@ -194,26 +184,10 @@ const ProductForm = ({ initialState, handleSubmit }: ProductFormProps) => {
             onChange={handleChangeName}
           />
         </div>
-        <div>
-          <TextField
-            id="price"
-            error={errorPrice}
-            required
-            type="number"
-            label="Precio"
-            helperText={errorPrice && 'Campo obligatorio.'}
-            variant="filled"
-            value={state.price}
-            onChange={handleChangePrice}
-            InputProps={{
-              readOnly: true
-            }}
-          />
-        </div>
       </S.WrapperInputs>
-      {state.ingredients.length > 0 && (
+      {state.products.length > 0 && (
         <S.WrapperChips>
-          {state.ingredients.map((item: IIngredient) => {
+          {state.products.map((item: IProduct) => {
             return (
               <Chip
                 key={item.id}
@@ -231,12 +205,12 @@ const ProductForm = ({ initialState, handleSubmit }: ProductFormProps) => {
       )}
 
       <div>
-        <S.TitleAdd>Agregar Ingredientes</S.TitleAdd>
+        <S.TitleAdd>Agregar Productos</S.TitleAdd>
         <S.WrapperGrid style={{ height: 300, width: 550 }}>
           <DataGrid
             columns={columns}
-            rows={ingredients.filter((item: IIngredient) => {
-              const exits = state.ingredients.filter((nose) => {
+            rows={products.filter((item: IProduct) => {
+              const exits = state.products.filter((nose) => {
                 return nose.id === item.id
               })
 
@@ -249,4 +223,4 @@ const ProductForm = ({ initialState, handleSubmit }: ProductFormProps) => {
   )
 }
 
-export default ProductForm
+export default CategoryForm

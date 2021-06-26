@@ -45,7 +45,8 @@ class GenericCrudService {
         .get()
         .then((doc: any) => {
           const data = doc.exists ? doc.data() : null
-          return getSuccessResponse(data)
+          const id = doc.id
+          return getSuccessResponse({ ...data, id })
         })
         .catch((error) => {
           return getBadRequestResponse(error)
