@@ -7,11 +7,8 @@ import Loader from 'components/Loader'
 import Bill from 'components/Bill'
 import Button from '@material-ui/core/Button'
 
-import Snackbar from '@material-ui/core/Snackbar'
-import Alert from '@material-ui/lab/Alert'
 import { useRouter } from 'next/router'
 
-import { Color } from 'models/form'
 import { ICategory } from 'models/categories'
 import { IOrder } from 'models/order'
 import EditIcon from '@material-ui/icons/Edit'
@@ -30,52 +27,17 @@ const OrderList = () => {
   const router = useRouter()
   const [records, setRecords] = useState([])
   const [loading, setLoading] = useState<boolean>(true)
-  const [openAlert, setOpenAlert] = useState<boolean>(false)
-  const [messageAlert, setMessageAlert] = useState<string>('')
   const [filterState, setFilterState] = useState<string>('all')
-  const [severityAlert, setSeverityAlert] = useState<Color>('success')
-
-  const handleCloseAlert = () => {
-    setOpenAlert(false)
-  }
 
   const editRecord = (id: string) => {
     router.push({
       pathname: `/${PLURAL_COMPONENT_NAME}/editar/${id}`
     })
   }
-  const removeRecord = (id: string): void => {
-    try {
-      const recordsUpdated = records.filter((record: ICategory) => {
-        return record && record.id !== id
-      })
-      setRecords(recordsUpdated)
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  const deleteRecord = (id: string) => {
-    setLoading(true)
-    ContentAPI.delete(`/${BASE_NAME_END_POINT}/${id}`)
-      .then(() => {
-        setLoading(false)
-        setOpenAlert(true)
-        setMessageAlert('Se eliminó correctamente.')
-        setSeverityAlert('success')
-        removeRecord(id)
-      })
-      .catch((error) => {
-        console.log(error)
-        setLoading(false)
-        setOpenAlert(true)
-        setMessageAlert('Ocurrió un error al eliminar el registro.')
-        setSeverityAlert('error')
-      })
-  }
 
   const getRecords = () => {
     ContentAPI.get<ICategory[]>(`/${BASE_NAME_END_POINT}`)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then(({ data: { data } }: any) => {
         setLoading(false)
         setRecords(data)
@@ -95,7 +57,6 @@ const OrderList = () => {
   const handleChangeSelect = (
     event: React.ChangeEvent<{ name?: string; value: unknown }>
   ) => {
-    const name = event.target.name
     setFilterState(event.target.value as string)
   }
 
@@ -125,6 +86,7 @@ const OrderList = () => {
             }}
           >
             <option value={'all'}>Todos</option>
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             {enumToArray(ORDER_STATES).map((state: any) => {
               return (
                 <option key={state.value} value={state.value}>
@@ -164,15 +126,6 @@ const OrderList = () => {
             )
           })}
       </S.WrapperGrid>
-      <Snackbar
-        open={openAlert}
-        autoHideDuration={6000}
-        onClose={handleCloseAlert}
-      >
-        <Alert onClose={handleCloseAlert} severity={severityAlert}>
-          {messageAlert}
-        </Alert>
-      </Snackbar>
     </S.Wrapper>
   )
 }

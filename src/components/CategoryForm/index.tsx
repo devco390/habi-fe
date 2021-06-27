@@ -35,6 +35,7 @@ const CategoryForm = ({ initialState, handleSubmit }: CategoryFormProps) => {
   const getProducts = () => {
     setLoading(true)
     ContentAPI.get<IProduct[]>(`/products`)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then(({ data: { data } }: any) => {
         setLoading(false)
         setCategories(data)
@@ -102,6 +103,7 @@ const CategoryForm = ({ initialState, handleSubmit }: CategoryFormProps) => {
   )
 
   const renderCellIngredients = (params: CellParams) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const text = ((params.value as any[]) || [])
       .map((item: IIngredient) => {
         return item.name

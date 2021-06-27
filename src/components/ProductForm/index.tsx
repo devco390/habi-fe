@@ -36,6 +36,7 @@ const ProductForm = ({ initialState, handleSubmit }: ProductFormProps) => {
   const getIngredients = () => {
     setLoading(true)
     ContentAPI.get<IIngredient[]>(`/ingredients`)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then(({ data: { data } }: any) => {
         setLoading(false)
         setIngredients(data)
@@ -151,6 +152,7 @@ const ProductForm = ({ initialState, handleSubmit }: ProductFormProps) => {
       })
     }
     setState({ ...state, price })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.ingredients])
 
   return (

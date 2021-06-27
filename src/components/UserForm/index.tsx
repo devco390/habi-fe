@@ -127,6 +127,7 @@ const UserForm = ({ initialState, handleSubmit }: UserFormProps) => {
               id: 'rol'
             }}
           >
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             {enumToArray(USER_ROLES).map((rol: any) => {
               return (
                 <option key={rol.value} value={rol.value}>
@@ -147,6 +148,7 @@ const UserForm = ({ initialState, handleSubmit }: UserFormProps) => {
               id: 'state'
             }}
           >
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             {enumToArray(USER_STATES).map((state: any) => {
               return (
                 <option key={state.value} value={state.value}>

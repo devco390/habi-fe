@@ -76,6 +76,7 @@ const CategoryList = () => {
   )
 
   const renderCellProducts = (params: CellParams) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const text = ((params.value as any[]) || [])
       .map((item: ICategory) => {
         return item.name
@@ -107,6 +108,7 @@ const CategoryList = () => {
 
   const getRecords = () => {
     ContentAPI.get<ICategory[]>(`/${BASE_NAME_END_POINT}`)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then(({ data: { data } }: any) => {
         setLoading(false)
         setRecords(data)

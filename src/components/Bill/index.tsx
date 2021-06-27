@@ -114,9 +114,7 @@ const Bill = ({ order, showExpand = false, children }: BillProps) => {
         </S.BillInfo>
         <S.BillInfo>
           <h2>Total: $ {new Intl.NumberFormat().format(total)}</h2>
-          <span>
-            Fecha: {order.createdAt && useDateTimeFormat(order.createdAt)}
-          </span>
+          <span>Fecha: {useDateTimeFormat(order.createdAt)}</span>
         </S.BillInfo>
         {showExpand && (
           <>

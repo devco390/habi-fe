@@ -35,6 +35,7 @@ const ProductEdit = ({ id }: ProductEditProps) => {
         setMessageAlert('Ocurrió al consultar registro.')
         setSeverityAlert('error')
       })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const onHandleSubmit = (data: IProduct) => {

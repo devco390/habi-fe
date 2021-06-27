@@ -77,6 +77,7 @@ const ProductList = () => {
   )
 
   const renderCellIngredients = (params: CellParams) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const text = ((params.value as any[]) || [])
       .map((item: IIngredient) => {
         return item.name
@@ -113,6 +114,7 @@ const ProductList = () => {
 
   const getRecords = () => {
     ContentAPI.get<IProduct[]>(`/${BASE_NAME_END_POINT}`)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then(({ data: { data } }: any) => {
         setLoading(false)
         setRecords(data)

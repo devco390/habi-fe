@@ -29,5 +29,6 @@ export const formatDate = (timestamp, { language = DEFAULT_LANGUAGE } = {}) => {
 }
 
 export default function useDateTimeFormat(timestamp) {
+  if (!timestamp) return ''
   return formatDate(timestamp, { language: DEFAULT_LANGUAGE })
 }

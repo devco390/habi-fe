@@ -115,6 +115,7 @@ const UserList = () => {
 
   const getRecords = () => {
     ContentAPI.get<IUser[]>(`/${BASE_NAME_END_POINT}`)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then(({ data: { data } }: any) => {
         setLoading(false)
         setRecords(data)

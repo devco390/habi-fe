@@ -6,7 +6,8 @@ export default {
   component: Login
 } as Meta
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Template = (args: any) => <Login {...args}></Login>
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const Default: Story<any> = Template.bind({})
 Default.args = {}

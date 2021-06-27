@@ -44,6 +44,7 @@ const OrderForm = ({ initialState, handleSubmit }: OrderFormProps) => {
 
   const getCategories = () => {
     ContentAPI.get<ICategory[]>(`/categories`)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then(({ data: { data } }: any) => {
         setLoading(false)
         setCategories(data.sort(orderAscByName))
@@ -253,6 +254,7 @@ const OrderForm = ({ initialState, handleSubmit }: OrderFormProps) => {
               id: 'state'
             }}
           >
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             {enumToArray(ORDER_STATES).map((state: any) => {
               return (
                 <option key={state.value} value={state.value}>
