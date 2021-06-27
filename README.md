@@ -2,7 +2,14 @@
 
 [![N|Solid](https://habi.co/cf4fc71ac1bf8e6d786e315cd474a527.svg)](https://nodesource.com/products/nsolid)
 
+Para el problema del tracking de una pizzería, se implementó la siguiente solución, un módulo de ingredientes, cada uno con precio. Un módulo de productos que se formara de la unión de uno o más ingredientes y calculara su precio. Estos productos se agrupan en el módulo de categorías, donde una categoría se conforma de uno o más productos, por último estas categorías y sus respectivos productos se muestran en el módulo de pedidos, donde el usuario podrá seleccionar un producto y su cantidad y el sistema generara la respectiva factura con los datos necesarios.
+
+ 
+
+
 ### Demo
+
+
 
 ### Tecnologías
 
@@ -22,7 +29,7 @@ La aplicación implementa principalmente las siguientes tecnologías:
 [storybook]: https://storybook.js.org/
 [react testing library]: https://testing-library.com/
 [typescript]: https://www.typescriptlang.org/
-[firebase]: https://firebase.google.com/
+[Firebase]: https://firebase.google.com/
 
 ### Instalación
 
