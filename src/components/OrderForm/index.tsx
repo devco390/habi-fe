@@ -43,6 +43,7 @@ const OrderForm = ({ initialState, handleSubmit }: OrderFormProps) => {
   const [loading, setLoading] = useState<boolean>(false)
 
   const getCategories = () => {
+    setLoading(true)
     ContentAPI.get<ICategory[]>(`/categories`)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then(({ data: { data } }: any) => {
