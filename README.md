@@ -9,9 +9,9 @@ Para el problema del tracking de una pizzería, se implementó la siguiente solu
 
 ### Demo
 
-Link: https://habi-fe.vercel.app/
-Correo para pruebas: habi.test.front@gmail.com
-Clave: ABC123456.
+- Link: https://habi-fe.vercel.app/
+- Correo para pruebas: habi.test.front@gmail.com
+- Clave: ABC123456.
 
 ### Tecnologías
 
