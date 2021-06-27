@@ -1,4 +1,5 @@
 import * as firebase from 'firebase'
+import 'firebase/auth'
 
 import { USER_LOGIN_STATES } from 'models/login'
 import { IUser } from 'models/user'
