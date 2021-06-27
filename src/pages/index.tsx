@@ -1,10 +1,10 @@
 import Base from 'templates/Base'
-import OrderList from 'components/OrderList'
+import OrderNew from 'components/OrderNew'
 
 const Home = () => {
   return (
     <Base>
-      <OrderList />
+      <OrderNew />
     </Base>
   )
 }

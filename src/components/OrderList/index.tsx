@@ -3,10 +3,8 @@ import * as S from 'styles/content-base'
 import { useEffect, useState } from 'react'
 import ContentAPI from 'services/content-api'
 
-import { DataGrid, ColDef, CellParams } from '@material-ui/data-grid'
-
 import Loader from 'components/Loader'
-import TableActions from 'components/TableActions'
+import Bill from 'components/Bill'
 import Button from '@material-ui/core/Button'
 
 import Snackbar from '@material-ui/core/Snackbar'
@@ -15,6 +13,14 @@ import { useRouter } from 'next/router'
 
 import { Color } from 'models/form'
 import { ICategory } from 'models/categories'
+import { IOrder } from 'models/order'
+import EditIcon from '@material-ui/icons/Edit'
+
+import InputLabel from '@material-ui/core/InputLabel'
+import FormControl from '@material-ui/core/FormControl'
+import Select from '@material-ui/core/Select'
+import { ORDER_STATES } from 'models/order'
+import { enumToArray } from 'utils/enum-utils'
 
 const SINGULAR_COMPONENT_NAME = 'pedido'
 const PLURAL_COMPONENT_NAME = 'pedidos'
@@ -26,6 +32,7 @@ const OrderList = () => {
   const [loading, setLoading] = useState<boolean>(true)
   const [openAlert, setOpenAlert] = useState<boolean>(false)
   const [messageAlert, setMessageAlert] = useState<string>('')
+  const [filterState, setFilterState] = useState<string>('all')
   const [severityAlert, setSeverityAlert] = useState<Color>('success')
 
   const handleCloseAlert = () => {
@@ -67,44 +74,6 @@ const OrderList = () => {
       })
   }
 
-  const renderCell = (params: CellParams) => (
-    <TableActions
-      id={params.value as string}
-      onEdit={editRecord}
-      onDelete={deleteRecord}
-    />
-  )
-
-  const renderCellProducts = (params: CellParams) => {
-    const text = ((params.value as any[]) || [])
-      .map((item: ICategory) => {
-        return item.name
-      })
-      .join(', ')
-    return <span>{text}</span>
-  }
-
-  const columns: ColDef[] = [
-    {
-      field: 'name',
-      headerName: 'Nombre',
-      width: 200
-    },
-    {
-      field: 'products',
-      headerName: 'Productos',
-      width: 200,
-      renderCell: renderCellProducts
-    },
-    {
-      field: 'id',
-      headerName: 'Acciones',
-      renderCell: renderCell,
-      width: 150,
-      sortable: false
-    }
-  ]
-
   const getRecords = () => {
     ContentAPI.get<ICategory[]>(`/${BASE_NAME_END_POINT}`)
       .then(({ data: { data } }: any) => {
@@ -123,6 +92,13 @@ const OrderList = () => {
     })
   }
 
+  const handleChangeSelect = (
+    event: React.ChangeEvent<{ name?: string; value: unknown }>
+  ) => {
+    const name = event.target.name
+    setFilterState(event.target.value as string)
+  }
+
   useEffect(() => {
     getRecords()
   }, [])
@@ -130,14 +106,63 @@ const OrderList = () => {
   return (
     <S.Wrapper>
       <Loader loading={loading} />
-      <S.WrapperAction style={{ width: 550 }}>
+      <S.WrapperAction style={{ width: 850 }}>
         <S.Title>{PLURAL_COMPONENT_NAME}</S.Title>
         <Button variant="contained" color="primary" onClick={redirectNewForm}>
           Crear {SINGULAR_COMPONENT_NAME}
         </Button>
       </S.WrapperAction>
-      <S.WrapperGrid style={{ height: 300, width: 550 }}>
-        <DataGrid columns={columns} rows={records} />
+      <S.Filters>
+        <FormControl variant="filled">
+          <InputLabel htmlFor="state">Estado</InputLabel>
+          <Select
+            native
+            value={filterState}
+            onChange={handleChangeSelect}
+            inputProps={{
+              name: 'state',
+              id: 'state'
+            }}
+          >
+            <option value={'all'}>Todos</option>
+            {enumToArray(ORDER_STATES).map((state: any) => {
+              return (
+                <option key={state.value} value={state.value}>
+                  {state.text}
+                </option>
+              )
+            })}
+          </Select>
+        </FormControl>
+      </S.Filters>
+      <S.WrapperGrid className="orders">
+        {records
+          .filter((order: IOrder) => {
+            if (filterState === 'in_progress') {
+              return order.state === ('in_progress' as ORDER_STATES)
+            } else if (filterState === 'closed') {
+              return order.state === ('closed' as ORDER_STATES)
+            }
+            return true
+          })
+          .map((order: IOrder) => {
+            return (
+              <Bill key={order.id} order={order} showExpand={true}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  startIcon={<EditIcon />}
+                  style={{ marginLeft: '1rem' }}
+                  onClick={() => {
+                    editRecord(order.id as string)
+                  }}
+                >
+                  Editar
+                </Button>
+              </Bill>
+            )
+          })}
       </S.WrapperGrid>
       <Snackbar
         open={openAlert}

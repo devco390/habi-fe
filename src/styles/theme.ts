@@ -33,7 +33,8 @@ export default {
     darkColor: '#373734',
     gmailRed: '#dd4b39',
     gmailDarkRed: '#ad3b2d',
-    backgroundLogin: '#f5f5f5'
+    backgroundLogin: '#f5f5f5',
+    link: '#3f51b5'
   },
   typography: {
     headline1: {

@@ -1,10 +1,12 @@
 import styled, { css } from 'styled-components'
 
-export const Bill = styled.div`
-  background: #ffffff;
-  width: 100%;
-  height: 100%;
-  padding: 1rem;
+export const Bill = styled.div<{ showExpand: boolean }>`
+  ${({ showExpand }) => css`
+    background: #ffffff;
+    width: 100%;
+    height: ${showExpand ? 'auto' : '100%'};
+    padding: 1rem;
+  `}
 `
 export const BillInfo = styled.div`
   ${({ theme }) => css`
@@ -41,4 +43,20 @@ export const BillProductsWrapper = styled.div`
   h2 {
     padding: 1rem 0 0.5rem 0;
   }
+`
+
+export const Expand = styled.div`
+  ${({ theme }) => css`
+    align-items: center;
+    color: ${theme.colors.link};
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 0.5rem;
+    > div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  `}
 `

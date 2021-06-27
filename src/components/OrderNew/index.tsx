@@ -71,7 +71,13 @@ const OrderNew = () => {
   return (
     <>
       <Loader loading={loading} />
-      <OrderForm initialState={initialState} handleSubmit={onHandleSubmit} />
+      {user && (
+        <OrderForm
+          initialState={{ ...initialState, user }}
+          handleSubmit={onHandleSubmit}
+        />
+      )}
+
       <Snackbar
         open={openAlert}
         autoHideDuration={6000}

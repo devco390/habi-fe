@@ -25,8 +25,19 @@ class GenericCrudService {
           querySnapshot.forEach((doc: any) => {
             const id = doc.id
             const data = doc.data()
-
-            dataTranformed.push({ id, ...data })
+            const { createdAt } = data
+            try {
+              dataTranformed.push({
+                id,
+                ...data,
+                createdAt: createdAt.toDate()
+              })
+            } catch (e) {
+              dataTranformed.push({
+                id,
+                ...data
+              })
+            }
           })
           return getSuccessResponse(dataTranformed)
         })

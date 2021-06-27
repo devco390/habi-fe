@@ -17,8 +17,19 @@ export const WrapperAction = styled.div`
   justify-content: space-between;
   width: 950px;
 `
+export const Filters = styled.div`
+  padding-left: 1rem;
+  padding-bottom: 1rem;
+`
 export const WrapperGrid = styled.div`
   padding: 1rem;
   height: 300px;
   width: 950px;
+  &.orders {
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: 1fr;
+    overflow: auto;
+    width: 850px;
+  }
 `

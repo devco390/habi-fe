@@ -243,7 +243,7 @@ const OrderForm = ({ initialState, handleSubmit }: OrderFormProps) => {
           />
         </div>
         <FormControl variant="filled">
-          <InputLabel htmlFor="rol">Rol</InputLabel>
+          <InputLabel htmlFor="state">Estado</InputLabel>
           <Select
             native
             value={state.state}
