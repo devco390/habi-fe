@@ -38,5 +38,6 @@ export const WrapperChips = styled.div`
   flex-wrap: wrap;
   > div {
     margin-right: 1rem;
+    margin-bottom: 1rem;
   }
 `

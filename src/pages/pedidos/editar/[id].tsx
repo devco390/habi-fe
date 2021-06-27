@@ -1,15 +1,15 @@
 import Base from 'templates/Base'
-import ProductEdit from 'components/ProductEdit'
+import OrderEdit from 'components/OrderEdit'
 import { useRouter } from 'next/router'
 
-const ProductEditPage = () => {
+const OrderEditPage = () => {
   const router = useRouter()
   const { id } = router.query
   return (
     <Base>
-      <ProductEdit id={id as string} />
+      <OrderEdit id={id as string} />
     </Base>
   )
 }
 
-export default ProductEditPage
+export default OrderEditPage

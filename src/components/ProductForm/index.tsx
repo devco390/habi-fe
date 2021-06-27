@@ -144,7 +144,10 @@ const ProductForm = ({ initialState, handleSubmit }: ProductFormProps) => {
     let price = 0
     if (prices.length > 0) {
       price = prices.reduce((accumulator: number, currentValue: number) => {
-        return accumulator + currentValue
+        return (
+          parseInt(accumulator as unknown as string, 10) +
+          parseInt(currentValue as unknown as string, 10)
+        )
       })
     }
     setState({ ...state, price })

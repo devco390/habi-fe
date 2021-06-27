@@ -28,7 +28,6 @@ interface IItemSidebar {
 }
 
 const ITEMS_SIDEBAR: IItemSidebar[] = [
-  { name: 'dashboard', label: 'Dashboard', url: 'dashboard' },
   {
     name: 'usuarios',
     label: 'Usuarios',
@@ -56,8 +55,7 @@ const ITEMS_SIDEBAR: IItemSidebar[] = [
   {
     name: 'pedidos',
     label: 'Pedidos',
-    url: 'pedidos',
-    enabledRoles: ['it_manager', 'manager']
+    url: 'pedidos'
   }
 ]
 

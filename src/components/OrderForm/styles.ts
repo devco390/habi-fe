@@ -1,42 +1,42 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export const Wrapper = styled.form``
 
-export const WrapperInputs = styled.div`
+export const Content = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto;
-  gap: 1rem;
-  padding: 1.5rem 0;
+  grid-template-areas: 'control bill';
+  grid-template-columns: 460px 460px;
+  gap: 1.5rem;
+  height: 400px;
+  box-sizing: border-box;
 `
 
-export const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  > div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    h1 {
-      padding-right: 1rem;
-    }
-  }
-`
-
-export const WrapperGrid = styled.div`
+export const WrapperControl = styled.div`
+  grid-area: control;
+  background: #ffffff;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.16);
+  border-radius: 1rem;
   padding: 1rem;
-  height: 300px;
+  > div {
+    max-height: 312px;
+    overflow: auto;
+  }
+  > h1 {
+    padding: 1rem 0;
+  }
 `
-export const TitleAdd = styled.h2`
-  padding: 0 1rem;
+export const WrapperBill = styled.div`
+  grid-area: bill;
 `
 
-export const WrapperChips = styled.div`
-  padding: 0 1rem 1rem 1rem;
-  width: 550px;
+export const Actions = styled.div`
+  display: grid;
+  grid-template-columns: auto 1fr 1fr 1fr 1fr;
+  grid-gap: 1rem;
+  padding: 1rem 0;
+`
+
+export const WrapperButton = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  > div {
-    margin-right: 1rem;
-  }
+  align-items: center;
 `

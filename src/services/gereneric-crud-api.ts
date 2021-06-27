@@ -24,7 +24,8 @@ class GenericCrudService {
           const dataTranformed: T[] = []
           querySnapshot.forEach((doc: any) => {
             const id = doc.id
-            const data = doc.data() as T
+            const data = doc.data()
+
             dataTranformed.push({ id, ...data })
           })
           return getSuccessResponse(dataTranformed)
@@ -46,7 +47,12 @@ class GenericCrudService {
         .then((doc: any) => {
           const data = doc.exists ? doc.data() : null
           const id = doc.id
-          return getSuccessResponse({ ...data, id })
+          const { createdAt } = data
+          return getSuccessResponse({
+            ...data,
+            id,
+            createdAt: +createdAt.toDate()
+          })
         })
         .catch((error) => {
           return getBadRequestResponse(error)
@@ -78,7 +84,7 @@ class GenericCrudService {
       return firestore
         .collection(this.collection)
         .doc(id)
-        .set(dataRecord, { merge: true })
+        .set({ ...dataRecord, createdAt: new Date() }, { merge: true })
         .then(() => {
           return getSuccessResponse({ updated: true })
         })
@@ -117,7 +123,7 @@ class GenericCrudService {
             return firestore
               .collection(this.collection)
               .doc(id)
-              .set(dataRecord, { merge: true })
+              .set({ ...dataRecord, createdAt: new Date() }, { merge: true })
               .then(() => {
                 return getSuccessResponse({ updated: true })
               })
