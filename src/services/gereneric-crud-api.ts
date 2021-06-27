@@ -1,4 +1,4 @@
-import { firestore } from 'firebase/Admin'
+import { firestore } from 'firebaseApp/Admin'
 import { IApiResponse } from 'models/api'
 import {
   getSuccessResponse,

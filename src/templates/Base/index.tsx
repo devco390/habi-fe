@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import Loader from 'components/Loader'
 import { USER_LOGIN_STATES } from 'models/login'
 
-import { logoutGmail } from 'firebase/AuthSession'
+import { logoutGmail } from 'firebaseApp/AuthSession'
 
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'

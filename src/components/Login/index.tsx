@@ -4,7 +4,7 @@ import {
   loginWithGmail,
   setLocalStorageUserInfo,
   clearLocalStorageUserInfo
-} from 'firebase/AuthSession'
+} from 'firebaseApp/AuthSession'
 
 import ButtonLogin from '../ButtonLogin'
 import Snackbar from '@material-ui/core/Snackbar'

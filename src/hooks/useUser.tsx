@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { onAuthStateChanged } from 'firebase/AuthSession'
+import { onAuthStateChanged } from 'firebaseApp/AuthSession'
 import { useRouter } from 'next/router'
 
 import { USER_LOGIN_STATES } from 'models/login'
